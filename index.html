@@ -16,7 +16,10 @@
         <span class="logo-orb" aria-hidden="true"></span>
         <span class="brand-text">AI Teaching Studio</span>
       </a>
-      <nav class="nav-menu" aria-label="Primary navigation">
+      <button id="nav-toggle" class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav">
+        ☰ <span data-en="Menu" data-ko="메뉴">Menu</span>
+      </button>
+      <nav id="primary-nav" class="nav-menu" aria-label="Primary navigation">
         <a class="is-active" href="./index.html" data-en="Home" data-ko="홈">Home</a>
         <a href="./archive.html" data-en="Archive" data-ko="아카이브">Archive</a>
       </nav>
@@ -27,9 +30,9 @@
     </div>
   </header>
 
-  <main class="container">
-    <section class="hero">
-      <div class="hero-copy">
+  <main>
+    <section class="hero hero-home">
+      <div class="container hero-copy">
         <p class="eyebrow" data-en="Computational Thinking · Human Insight" data-ko="계산적 사고 · 인간 중심 통찰">Computational Thinking · Human Insight</p>
         <h1 data-en="Courses for AI, data science, and digital scholarship." data-ko="AI, 데이터 사이언스, 디지털 학문을 위한 강의.">
           Courses for AI, data science, and digital scholarship.
@@ -44,12 +47,9 @@
           <span class="badge" data-en="Bilingual ready" data-ko="한·영 지원">Bilingual ready</span>
         </div>
       </div>
-      <div class="hero-media" role="img" aria-label="Aurora inspired hero visual">
-        <div class="uni-logo" aria-hidden="true"></div>
-        <div class="book-cover" aria-hidden="true"></div>
-      </div>
     </section>
 
+    <div class="container">
     <section class="section-head">
       <div>
         <h2 data-en="Current Semester" data-ko="이번 학기 강의">Current Semester</h2>
@@ -68,6 +68,7 @@
       </div>
     </section>
     <section id="featured-courses" class="course-grid" aria-live="polite"></section>
+    </div>
   </main>
 
   <footer class="site-footer">
@@ -82,7 +83,7 @@
       <div class="footer-center">
         <span class="footer-logo" aria-hidden="true"></span>
       </div>
-      <div>
+      <div class="footer-end">
         <h3 data-en="Elsewhere" data-ko="링크">Elsewhere</h3>
         <ul class="footer-links">
           <li><a href="#" rel="noopener" data-en="Research Lab" data-ko="연구실">Research Lab</a></li>
