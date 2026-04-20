@@ -3,13 +3,13 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>AI Teaching Studio · Home</title>
+  <title>AI Teaching Studio · Archive</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;600&family=Playfair+Display:wght@600;700&family=Pretendard:wght@400;500;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="./styles.css" />
 </head>
-<body data-page="home" data-title-en="AI Teaching Studio · Home" data-title-ko="AI Teaching Studio · 홈">
+<body data-page="archive" data-title-en="AI Teaching Studio · Archive" data-title-ko="AI Teaching Studio · 아카이브">
   <header class="site-header">
     <div class="container nav-shell">
       <a class="brand" href="./index.html" aria-label="Home">
@@ -17,8 +17,8 @@
         <span class="brand-text">AI Teaching Studio</span>
       </a>
       <nav class="nav-menu" aria-label="Primary navigation">
-        <a class="is-active" href="./index.html" data-en="Home" data-ko="홈">Home</a>
-        <a href="./archive.html" data-en="Archive" data-ko="아카이브">Archive</a>
+        <a href="./index.html" data-en="Home" data-ko="홈">Home</a>
+        <a class="is-active" href="./archive.html" data-en="Archive" data-ko="아카이브">Archive</a>
       </nav>
       <div class="toggles">
         <button id="lang-toggle" class="icon-btn" type="button" aria-label="Toggle language">한국어</button>
@@ -30,21 +30,18 @@
   <main class="container">
     <section class="hero">
       <div class="hero-copy">
-        <p class="eyebrow" data-en="Computational Thinking · Human Insight" data-ko="계산적 사고 · 인간 중심 통찰">Computational Thinking · Human Insight</p>
-        <h1 data-en="Courses for AI, data science, and digital scholarship." data-ko="AI, 데이터 사이언스, 디지털 학문을 위한 강의.">
-          Courses for AI, data science, and digital scholarship.
-        </h1>
-        <p data-en="Modern teaching, cross-campus collaboration, and practical research methods for real-world learners."
-           data-ko="현대적 수업 설계, 캠퍼스 간 협업, 실전형 연구 방법을 기반으로 학습자를 위한 수업을 제공합니다.">
-          Modern teaching, cross-campus collaboration, and practical research methods for real-world learners.
+        <p class="eyebrow" data-en="Past Terms · Teaching Record" data-ko="이전 학기 · 강의 기록">Past Terms · Teaching Record</p>
+        <h1 data-en="Course Archive" data-ko="강의 아카이브">Course Archive</h1>
+        <p data-en="Browse previous offerings across institutions and semesters."
+           data-ko="대학별·학기별 이전 강의 개설 내역을 확인하세요.">
+          Browse previous offerings across institutions and semesters.
         </p>
-        <div class="badge-row" aria-label="Site summary">
-          <span class="badge">2026 Spring</span>
-          <span class="badge"><code>AI-501</code> / <code>DS-220</code></span>
-          <span class="badge" data-en="Bilingual ready" data-ko="한·영 지원">Bilingual ready</span>
+        <div class="badge-row">
+          <span class="badge">2024–2025</span>
+          <span class="badge" data-en="Historical list" data-ko="기록용 목록">Historical list</span>
         </div>
       </div>
-      <div class="hero-media" role="img" aria-label="Aurora inspired hero visual">
+      <div class="hero-media" role="img" aria-label="Aurora inspired archive visual">
         <div class="uni-logo" aria-hidden="true"></div>
         <div class="book-cover" aria-hidden="true"></div>
       </div>
@@ -52,22 +49,15 @@
 
     <section class="section-head">
       <div>
-        <h2 data-en="Current Semester" data-ko="이번 학기 강의">Current Semester</h2>
-        <p data-en="Only active courses are shown here." data-ko="현재 운영 중인 강의만 표시합니다.">Only active courses are shown here.</p>
-      </div>
-      <a class="text-link" href="./archive.html" data-en="View full archive →" data-ko="전체 아카이브 보기 →">View full archive →</a>
-    </section>
-    <section id="current-courses" class="course-grid" aria-live="polite"></section>
-
-    <section class="section-head">
-      <div>
-        <h2 data-en="Featured Courses" data-ko="추천 강의">Featured Courses</h2>
-        <p data-en="Pinned highlights from current and recent terms." data-ko="현재/최근 학기에서 추천으로 고정한 강의입니다.">
-          Pinned highlights from current and recent terms.
+        <h2 data-en="Archive List" data-ko="아카이브 목록">Archive List</h2>
+        <p data-en="Current semester courses stay on the home page."
+           data-ko="현재 학기 강의는 홈 화면에서 확인할 수 있습니다.">
+          Current semester courses stay on the home page.
         </p>
       </div>
+      <a class="text-link" href="./index.html" data-en="Back to home →" data-ko="홈으로 돌아가기 →">Back to home →</a>
     </section>
-    <section id="featured-courses" class="course-grid" aria-live="polite"></section>
+    <section id="archive-courses" class="course-grid" aria-live="polite"></section>
   </main>
 
   <footer class="site-footer">

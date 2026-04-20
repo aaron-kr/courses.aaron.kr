@@ -1,6 +1,6 @@
 # courses.aaron.kr
 
-Temporary standalone homepage for course information.
+Temporary standalone website for course information.
 
 ## Quick preview
 
@@ -12,3 +12,8 @@ python3 -m http.server 8000
 ```
 
 Then visit `http://localhost:8000`.
+
+## Pages
+
+- `index.html`: homepage (current semester + featured courses)
+- `archive.html`: separate course archive page
