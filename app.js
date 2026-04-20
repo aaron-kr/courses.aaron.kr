@@ -102,9 +102,22 @@ const state = {
   theme: localStorage.getItem("theme") || "dark"
 };
 
+const MOBILE_BREAKPOINT = 680;
+const MAX_IMAGE_TITLE_LENGTH = 32;
+const RESIZE_DEBOUNCE_MS = 120;
+
 const getLabel = (item, lang, key) => item[`${key}${lang === "ko" ? "Ko" : "En"}`];
 
 const svgDataUri = (svg) => `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
+
+const truncateText = (text, maxLength) => {
+  if (text.length <= maxLength) {
+    return text;
+  }
+  const trimmed = text.slice(0, maxLength);
+  const lastSpace = trimmed.lastIndexOf(" ");
+  return `${(lastSpace > 0 ? trimmed.slice(0, lastSpace) : trimmed).trim()}…`;
+};
 
 const getLogoImage = (item, lang) => {
   const uni = getLabel(item, lang, "university");
@@ -122,7 +135,7 @@ const getLogoImage = (item, lang) => {
 };
 
 const getFeaturedImage = (item, lang) => {
-  const title = getLabel(item, lang, "title");
+  const title = truncateText(getLabel(item, lang, "title"), MAX_IMAGE_TITLE_LENGTH);
   return svgDataUri(`<svg xmlns="http://www.w3.org/2000/svg" width="640" height="360" viewBox="0 0 640 360">
     <defs>
       <linearGradient id="fg" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -133,7 +146,7 @@ const getFeaturedImage = (item, lang) => {
     <rect width="640" height="360" rx="28" fill="url(#fg)" />
     <rect x="26" y="30" width="588" height="300" rx="20" fill="rgba(0,0,0,0.12)" />
     <text x="50%" y="46%" text-anchor="middle" font-family="DM Sans, Arial, sans-serif" font-size="42" font-weight="700" fill="#ffffff">${item.code}</text>
-    <text x="50%" y="58%" text-anchor="middle" font-family="DM Sans, Arial, sans-serif" font-size="21" fill="rgba(255,255,255,0.94)">${title.slice(0, 30)}</text>
+    <text x="50%" y="58%" text-anchor="middle" font-family="DM Sans, Arial, sans-serif" font-size="21" fill="rgba(255,255,255,0.94)">${title}</text>
   </svg>`);
 };
 
@@ -230,6 +243,7 @@ const init = () => {
   const themeToggle = document.getElementById("theme-toggle");
   const navToggle = document.getElementById("nav-toggle");
   const navMenu = document.getElementById("primary-nav");
+  let resizeTimer;
 
   langToggle?.addEventListener("click", () => {
     state.lang = state.lang === "en" ? "ko" : "en";
@@ -258,10 +272,13 @@ const init = () => {
   });
 
   window.addEventListener("resize", () => {
-    if (window.innerWidth > 680) {
-      navMenu?.classList.remove("is-open");
-      navToggle?.setAttribute("aria-expanded", "false");
-    }
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      if (window.innerWidth > MOBILE_BREAKPOINT) {
+        navMenu?.classList.remove("is-open");
+        navToggle?.setAttribute("aria-expanded", "false");
+      }
+    }, RESIZE_DEBOUNCE_MS);
   });
 
   applyTheme();
