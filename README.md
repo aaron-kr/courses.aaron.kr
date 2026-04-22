@@ -17,3 +17,4 @@ Then visit `http://localhost:8000`.
 
 - `index.html`: homepage (current semester + featured courses)
 - `archive.html`: separate course archive page
+- `policies.html`: sample policy page (ChatGPT, tests, assignments)

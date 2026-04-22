@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI Teaching Studio · Policies</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Serif+Display:ital@0;1&family=IBM+Plex+Mono:wght@400;500&family=Pretendard:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body data-page="policies" data-title-en="AI Teaching Studio · Policies" data-title-ko="AI Teaching Studio · 정책">
+  <header class="site-header">
+    <div class="nav-shell">
+      <a class="brand" href="./index.html" aria-label="Home">
+        <span class="logo-orb" aria-hidden="true"></span>
+        <span class="brand-text">AI Teaching Studio</span>
+      </a>
+
+      <button id="nav-toggle" class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav">
+        ☰ <span data-en="Menu" data-ko="메뉴">Menu</span>
+      </button>
+
+      <nav id="primary-nav" class="nav-menu" aria-label="Primary navigation">
+        <a class="nav-link" href="./index.html" data-en="Home" data-ko="홈">Home</a>
+        <a class="nav-link" href="./archive.html" data-en="Archive" data-ko="아카이브">Archive</a>
+
+        <div class="dropdown" data-dropdown>
+          <button class="dropdown-toggle" type="button" aria-expanded="false" data-en="Current Semester ▾" data-ko="이번 학기 ▾">Current Semester ▾</button>
+          <div id="current-courses-dropdown" class="dropdown-menu" role="menu" aria-label="Current semester courses"></div>
+        </div>
+
+        <div class="dropdown" data-dropdown>
+          <button class="dropdown-toggle" type="button" aria-expanded="false" data-en="Policies ▾" data-ko="정책 ▾">Policies ▾</button>
+          <div class="dropdown-menu" role="menu" aria-label="Policies links">
+            <a href="#chatgpt-policy" data-en="ChatGPT Use" data-ko="ChatGPT 사용">ChatGPT Use</a>
+            <a href="#test-policy" data-en="Tests & Exams" data-ko="시험 정책">Tests & Exams</a>
+            <a href="#assignment-policy" data-en="Assignments" data-ko="과제 정책">Assignments</a>
+          </div>
+        </div>
+      </nav>
+
+      <div class="toggles">
+        <button id="lang-toggle" class="icon-btn" type="button" aria-label="Toggle language">한국어</button>
+        <button id="theme-toggle" class="icon-btn" type="button" aria-label="Toggle color theme">🌙</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <header class="hero">
+      <p class="eyebrow" data-en="Course Governance · Expectations" data-ko="수업 운영 · 학습 기준">Course Governance · Expectations</p>
+      <h1 data-en="Course <em>Policies</em>" data-ko="강의 <em>정책</em>">Course <em>Policies</em></h1>
+      <p class="hero-desc" data-en="Sample policy page. You can revise these sections later with your full policy text for each class."
+         data-ko="샘플 정책 페이지입니다. 이후 각 과목에 맞게 정책 내용을 자유롭게 수정할 수 있습니다.">
+        Sample policy page. You can revise these sections later with your full policy text for each class.
+      </p>
+    </header>
+
+    <section class="section">
+      <div class="section-head">
+        <div class="section-title">
+          <h2 data-en="Policy Sections" data-ko="정책 섹션">Policy Sections</h2>
+          <span class="section-line" aria-hidden="true"></span>
+        </div>
+      </div>
+
+      <section class="policy-grid" aria-live="polite">
+        <article id="chatgpt-policy" class="policy-card">
+          <span class="policy-code">POL-01</span>
+          <h3 data-en="ChatGPT & AI Tool Use" data-ko="ChatGPT 및 AI 도구 사용">ChatGPT & AI Tool Use</h3>
+          <p data-en="AI tools may be used only when explicitly allowed for the assignment. Students must disclose any AI assistance and remain fully responsible for submitted work."
+             data-ko="과제에서 명시적으로 허용한 경우에만 AI 도구 사용이 가능합니다. 모든 AI 활용 내역은 공개되어야 하며 제출물의 책임은 학생에게 있습니다.">
+            AI tools may be used only when explicitly allowed for the assignment. Students must disclose any AI assistance and remain fully responsible for submitted work.
+          </p>
+          <ul>
+            <li data-en="Disclose prompts and outputs when required." data-ko="필요 시 사용한 프롬프트와 결과를 제출합니다.">Disclose prompts and outputs when required.</li>
+            <li data-en="No AI use during closed-book tests unless announced." data-ko="별도 공지 없이는 폐쇄형 시험에서 AI 사용을 금지합니다.">No AI use during closed-book tests unless announced.</li>
+            <li data-en="Plagiarism rules apply to AI-generated text/code." data-ko="AI 생성 텍스트·코드에도 표절 규정이 동일하게 적용됩니다.">Plagiarism rules apply to AI-generated text/code.</li>
+          </ul>
+        </article>
+
+        <article id="test-policy" class="policy-card">
+          <span class="policy-code">POL-02</span>
+          <h3 data-en="Tests & Exams" data-ko="시험 정책">Tests & Exams</h3>
+          <p data-en="Tests assess individual understanding. Attendance is required unless excused in advance with documentation. Makeup assessments follow course rules."
+             data-ko="시험은 개인의 이해도를 평가합니다. 사전 승인된 사유가 없는 한 응시는 필수이며, 대체 평가는 강의 규정을 따릅니다.">
+            Tests assess individual understanding. Attendance is required unless excused in advance with documentation. Makeup assessments follow course rules.
+          </p>
+          <ul>
+            <li data-en="Bring required identification for all exams." data-ko="모든 시험에 신분증을 지참해야 합니다.">Bring required identification for all exams.</li>
+            <li data-en="Late arrival may reduce available exam time." data-ko="지각 시 시험 시간이 단축될 수 있습니다.">Late arrival may reduce available exam time.</li>
+            <li data-en="No unauthorized devices during testing." data-ko="시험 중 허가되지 않은 기기 사용을 금지합니다.">No unauthorized devices during testing.</li>
+          </ul>
+        </article>
+
+        <article id="assignment-policy" class="policy-card">
+          <span class="policy-code">POL-03</span>
+          <h3 data-en="Assignments & Submission" data-ko="과제 및 제출">Assignments & Submission</h3>
+          <p data-en="Submit assignments by the listed deadline. Late penalties and extension requests are handled according to syllabus policy and fairness standards."
+             data-ko="과제는 공지된 마감 기한까지 제출해야 하며, 지각 감점 및 연장 요청은 강의계획서 정책과 공정성 기준을 따릅니다.">
+            Submit assignments by the listed deadline. Late penalties and extension requests are handled according to syllabus policy and fairness standards.
+          </p>
+          <ul>
+            <li data-en="Follow file naming and format requirements." data-ko="파일명 및 제출 형식 규정을 준수해야 합니다.">Follow file naming and format requirements.</li>
+            <li data-en="Group work must include contribution statements." data-ko="팀 과제는 기여도 명세를 포함해야 합니다.">Group work must include contribution statements.</li>
+            <li data-en="Regrade requests must be submitted within one week." data-ko="재채점 요청은 1주일 내 제출해야 합니다.">Regrade requests must be submitted within one week.</li>
+          </ul>
+        </article>
+      </section>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-grid">
+      <span class="footer-note" data-en="© 2026 AI Teaching Studio · Policies sample" data-ko="© 2026 AI Teaching Studio · 정책 샘플">© 2026 AI Teaching Studio · Policies sample</span>
+      <ul class="footer-links">
+        <li><a href="./index.html" data-en="Home" data-ko="홈">Home</a></li>
+        <li><a href="./archive.html" data-en="Archive" data-ko="아카이브">Archive</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <script src="./app.js"></script>
+</body>
+</html>
