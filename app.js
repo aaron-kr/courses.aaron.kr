@@ -159,7 +159,7 @@ const applyLanguage = () => {
   document.title = document.body.dataset[`title${state.lang === "ko" ? "Ko" : "En"}`] || document.title;
 
   document.querySelectorAll("[data-en][data-ko]").forEach((node) => {
-    node.innerHTML = node.dataset[state.lang];
+    node.textContent = node.dataset[state.lang];
   });
 
   const langToggle = document.getElementById("lang-toggle");
