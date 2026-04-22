@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Prof. J. Kim — Courses</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #0c0c0e;
+      --surface:  #141418;
+      --border:   #2a2a32;
+      --muted:    #4a4a5a;
+      --text:     #e8e8f0;
+      --sub:      #9898b0;
+      --accent:   #7eb8f7;
+      --accent2:  #b9fbc0;
+      --tag-bg:   #1c1c26;
+      --radius:   6px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      line-height: 1.6;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── subtle dot grid background ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: radial-gradient(circle, #2a2a3a 1px, transparent 1px);
+      background-size: 28px 28px;
+      opacity: 0.35;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .wrap {
+      position: relative;
+      z-index: 1;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid var(--border);
+      background: rgba(12,12,14,0.88);
+      backdrop-filter: blur(14px);
+    }
+    .nav-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 24px;
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-brand {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--accent);
+      letter-spacing: 0.04em;
+      text-decoration: none;
+    }
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 0.8rem;
+      color: var(--sub);
+      text-decoration: none;
+      letter-spacing: 0.02em;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+
+    /* ── HERO ── */
+    header {
+      padding: 80px 0 60px;
+      border-bottom: 1px solid var(--border);
+    }
+    .eyebrow {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--accent);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+    h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2.6rem, 6vw, 4rem);
+      font-weight: 400;
+      line-height: 1.08;
+      letter-spacing: -0.02em;
+      color: var(--text);
+    }
+    h1 em {
+      font-style: italic;
+      color: var(--accent);
+    }
+    .hero-meta {
+      display: flex;
+      gap: 32px;
+      margin-top: 28px;
+      flex-wrap: wrap;
+    }
+    .hero-meta-item {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .hero-meta-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+    .hero-meta-value {
+      font-size: 0.88rem;
+      color: var(--sub);
+    }
+    .hero-desc {
+      margin-top: 32px;
+      max-width: 560px;
+      font-size: 0.95rem;
+      color: var(--sub);
+      line-height: 1.75;
+      border-left: 2px solid var(--border);
+      padding-left: 18px;
+    }
+
+    /* ── FILTER TABS ── */
+    .filter-bar {
+      display: flex;
+      gap: 8px;
+      padding: 28px 0 0;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .filter-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-right: 6px;
+    }
+    .filter-btn {
+      background: var(--tag-bg);
+      border: 1px solid var(--border);
+      color: var(--sub);
+      padding: 4px 14px;
+      border-radius: 999px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.72rem;
+      cursor: pointer;
+      transition: all 0.18s;
+      letter-spacing: 0.04em;
+    }
+    .filter-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .filter-btn.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #0c0c0e;
+    }
+
+    /* ── COURSE GROUPS ── */
+    .course-section { padding: 48px 0; }
+    .semester-group { margin-bottom: 52px; }
+    .semester-group:last-child { margin-bottom: 0; }
+
+    .semester-heading {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+    .semester-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+    .semester-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .course-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 14px;
+    }
+
+    /* ── COURSE CARD ── */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      transition: border-color 0.2s, transform 0.18s, box-shadow 0.2s;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+    .card::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .card:hover {
+      border-color: #3a3a50;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    }
+    .card:hover::after { opacity: 1; }
+
+    .card-code {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--accent);
+      letter-spacing: 0.08em;
+    }
+    .card-title {
+      font-size: 0.92rem;
+      font-weight: 500;
+      color: var(--text);
+      line-height: 1.35;
+    }
+    .card-desc {
+      font-size: 0.78rem;
+      color: var(--muted);
+      line-height: 1.55;
+      flex: 1;
+    }
+    .card-tags {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 4px;
+    }
+    .tag {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.62rem;
+      padding: 2px 8px;
+      border-radius: 3px;
+      background: var(--tag-bg);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      letter-spacing: 0.04em;
+    }
+    .tag.grad { color: #d4a0ff; border-color: #3a2a50; }
+    .tag.ugrad { color: var(--accent2); border-color: #1a3026; }
+    .tag.seminar { color: #ffcf7e; border-color: #3a2e0a; }
+
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 2px;
+    }
+    .card-students {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--muted);
+    }
+    .card-arrow {
+      font-size: 0.75rem;
+      color: var(--muted);
+      opacity: 0;
+      transition: opacity 0.18s, transform 0.18s;
+    }
+    .card:hover .card-arrow {
+      opacity: 1;
+      transform: translateX(3px);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 36px 0;
+      margin-top: 20px;
+    }
+    .footer-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .footer-note {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--muted);
+    }
+    .footer-links {
+      display: flex;
+      gap: 20px;
+    }
+    .footer-links a {
+      font-size: 0.78rem;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--accent); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .animate { animation: fadeUp 0.55s ease both; }
+    .d1 { animation-delay: 0.05s; }
+    .d2 { animation-delay: 0.12s; }
+    .d3 { animation-delay: 0.20s; }
+    .d4 { animation-delay: 0.28s; }
+
+    /* ── STATS BAR ── */
+    .stats-bar {
+      display: flex;
+      gap: 0;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-top: 36px;
+    }
+    .stat {
+      flex: 1;
+      padding: 14px 20px;
+      border-right: 1px solid var(--border);
+      text-align: center;
+    }
+    .stat:last-child { border-right: none; }
+    .stat-num {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.6rem;
+      color: var(--accent);
+      line-height: 1;
+    }
+    .stat-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.62rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-top: 4px;
+    }
+
+    /* ── hidden cards ── */
+    .semester-group.hidden { display: none; }
+
+    @media (max-width: 580px) {
+      h1 { font-size: 2.2rem; }
+      .hero-meta { gap: 20px; }
+      .stats-bar { flex-wrap: wrap; }
+      .stat { flex: 0 0 50%; border-bottom: 1px solid var(--border); }
+      .stat:nth-child(2n) { border-right: none; }
+      .stat:nth-last-child(-n+2) { border-bottom: none; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a class="nav-brand" href="#">jkim.edu</a>
+    <ul class="nav-links">
+      <li><a href="#">About</a></li>
+      <li><a href="#">Research</a></li>
+      <li><a href="#courses">Courses</a></li>
+      <li><a href="#">Publications</a></li>
+      <li><a href="#">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <!-- HERO -->
+  <header>
+    <p class="eyebrow animate d1">Associate Professor · Dept. of Computer Science</p>
+    <h1 class="animate d2">Teaching &amp;<br><em>Courses</em></h1>
+
+    <div class="hero-meta animate d3">
+      <div class="hero-meta-item">
+        <span class="hero-meta-label">Institution</span>
+        <span class="hero-meta-value">Yonsei University</span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="hero-meta-label">Lab</span>
+        <span class="hero-meta-value">AI &amp; Systems Lab</span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="hero-meta-label">Office</span>
+        <span class="hero-meta-value">Engineering Hall 412</span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="hero-meta-label">Email</span>
+        <span class="hero-meta-value">jkim@yonsei.ac.kr</span>
+      </div>
+    </div>
+
+    <p class="hero-desc animate d4">
+      I teach courses at the intersection of machine learning, systems, and theory. My goal is to give students both rigorous foundations and practical intuitions — from first principles to deployment.
+    </p>
+
+    <div class="stats-bar animate d4">
+      <div class="stat"><div class="stat-num">18</div><div class="stat-label">Courses taught</div></div>
+      <div class="stat"><div class="stat-num">6</div><div class="stat-label">Semesters</div></div>
+      <div class="stat"><div class="stat-num">4</div><div class="stat-label">Grad seminars</div></div>
+      <div class="stat"><div class="stat-num">~800</div><div class="stat-label">Students total</div></div>
+    </div>
+  </header>
+
+  <!-- COURSES -->
+  <section class="course-section" id="courses">
+
+    <!-- Filter bar -->
+    <div class="filter-bar">
+      <span class="filter-label">Filter</span>
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="2025">2025</button>
+      <button class="filter-btn" data-filter="2024">2024</button>
+      <button class="filter-btn" data-filter="2023">2023</button>
+      <button class="filter-btn" data-filter="grad">Graduate</button>
+      <button class="filter-btn" data-filter="ugrad">Undergraduate</button>
+    </div>
+
+    <!-- 2025 Spring -->
+    <div class="semester-group" data-year="2025">
+      <div class="semester-heading">
+        <span class="semester-label">Spring 2025</span>
+        <span class="semester-line"></span>
+      </div>
+      <div class="course-grid">
+        <div class="card">
+          <span class="card-code">CS 4820</span>
+          <div class="card-title">Advanced Machine Learning</div>
+          <div class="card-desc">Probabilistic graphical models, variational inference, deep generative models, and scalable approximate inference.</div>
+          <div class="card-tags"><span class="tag grad">Graduate</span><span class="tag">3 credits</span></div>
+          <div class="card-footer"><span class="card-students">↳ 42 students</span><span class="card-arrow">→</span></div>
+        </div>
+        <div class="card">
+          <span class="card-code">CS 3310</span>
+          <div class="card-title">Algorithms &amp; Complexity</div>
+          <div class="card-desc">Divide-and-conquer, dynamic programming, network flow, NP-completeness, and approximation algorithms.</div>
+          <div class="card-tags"><span class="tag ugrad">Undergrad</span><span class="tag">3 credits</span></div>
+          <div class="card-footer"><span class="card-students">↳ 118 students</span><span class="card-arrow">→</span></div>
+        </div>
+        <div class="card">
+          <span class="card-code">CS 6001</span>
+          <div class="card-title">Seminar: Foundation Models</div>
+          <div class="card-desc">Weekly reading group covering pretraining, RLHF, in-context learning, and emerging capabilities in large language models.</div>
+          <div class="card-tags"><span class="tag seminar">Seminar</span><span class="tag grad">Graduate</span></div>
+          <div class="card-footer"><span class="card-students">↳ 14 students</span><span class="card-arrow">→</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2024 Fall -->
+    <div class="semester-group" data-year="2024">
+      <div class="semester-heading">
+        <span class="semester-label">Fall 2024</span>
+        <span class="semester-line"></span>
+      </div>
+      <div class="course-grid">
+        <div class="card">
+          <span class="card-code">CS 4820</span>
+          <div class="card-title">Advanced Machine Learning</div>
+          <div class="card-desc">Probabilistic graphical models, variational inference, deep generative models, and scalable approximate inference.</div>
+          <div class="card-tags"><span class="tag grad">Graduate</span><span class="tag">3 credits</span></div>
+          <div class="card-footer"><span class="card-students">↳ 38 students</span><span class="card-arrow">→</span></div>
+        </div>
+        <div class="card">
+          <span class="card-code">CS 2210</span>
+          <div class="card-title">Data Structures</div>
+          <div class="card-desc">Arrays, linked lists, trees, heaps, hash tables, and graph algorithms with emphasis on correctness and efficiency proofs.</div>
+          <div class="card-tags"><span class="tag ugrad">Undergrad</span><span class="tag">3 credits</span></div>
+          <div class="card-footer"><span class="card-students">↳ 156 students</span><span class="card-arrow">→</span></div>
+        </div>
+        <div class="card">
+          <span class="card-code">CS 5510</span>
+          <div class="card-title">Distributed Systems</div>
+          <div class="card-desc">Consensus protocols, fault tolerance, CAP theorem, and hands-on projects building distributed key-value stores.</div>
+          <div class="card-tags"><span class="tag grad">Graduate</span><span class="tag">3 credits</span></div>
+          <div class="card-footer"><span class="card-students">↳ 55 students</span><span class="card-arrow">→</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2024 Spring -->
+    <div class="semester-group" data-year="2024">
+      <div class="semester-heading">
+        <span class="semester-label">Spring 2024</span>
+        <span class="semester-line"></span>
+      </div>
+      <div class="course-grid">
+        <div class="card">
+          <span class="card-code">CS 3310</span>
+          <div class="card-title">Algorithms &amp; Complexity</div>
+          <div class="card-desc">Divide-and-conquer, dynamic programming, network flow, NP-completeness, and approximation algorithms.</div>
+          <div class="card-tags"><span class="tag ugrad">Undergrad</span><span class="tag">3 credits</span></div>
+          <div class="card-footer"><span class="card-students">↳ 130 students</span><span class="card-arrow">→</span></div>
+        </div>
+        <div class="card">
+          <span class="card-code">CS 4910</span>
+          <div class="card-title">ML for Systems</div>
+          <div class="card-desc">Applying machine learning to compiler optimization, database query planning, network routing, and OS scheduling.</div>
+          <div class="card-tags"><span class="tag grad">Graduate</span><span class="tag">3 credits</span></div>
+          <div class="card-footer"><span class="card-students">↳ 28 students</span><span class="card-arrow">→</span></div>
+        </div>
+        <div class="card">
+          <span class="card-code">CS 6002</span>
+          <div class="card-title">Seminar: Alignment &amp; Safety</div>
+          <div class="card-desc">Current literature on AI alignment: reward modeling, interpretability, scalable oversight, and constitutional AI.</div>
+          <div class="card-tags"><span class="tag seminar">Seminar</span><span class="tag grad">Graduate</span></div>
+          <div class="card-footer"><span class="card-students">↳ 11 students</span><span class="card-arrow">→</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2023 Fall -->
+    <div class="semester-group" data-year="2023">
+      <div class="semester-heading">
+        <span class="semester-label">Fall 2023</span>
+        <span class="semester-line"></span>
+      </div>
+      <div class="course-grid">
+        <div class="card">
+          <span class="card-code">CS 4820</span>
+          <div class="card-title">Advanced Machine Learning</div>
+          <div class="card-desc">Probabilistic graphical models, variational inference, deep generative models, and scalable approximate inference.</div>
+          <div class="card-tags"><span class="tag grad">Graduate</span><span class="tag">3 credits</span></div>
+          <div class="card-footer"><span class="card-students">↳ 35 students</span><span class="card-arrow">→</span></div>
+        </div>
+        <div class="card">
+          <span class="card-code">CS 2210</span>
+          <div class="card-title">Data Structures</div>
+          <div class="card-desc">Arrays, linked lists, trees, heaps, hash tables, and graph algorithms with emphasis on correctness and efficiency proofs.</div>
+          <div class="card-tags"><span class="tag ugrad">Undergrad</span><span class="tag">3 credits</span></div>
+          <div class="card-footer"><span class="card-students">↳ 148 students</span><span class="card-arrow">→</span></div>
+        </div>
+        <div class="card">
+          <span class="card-code">CS 3110</span>
+          <div class="card-title">Intro to AI</div>
+          <div class="card-desc">Search algorithms, constraint satisfaction, Bayesian reasoning, reinforcement learning, and neural networks from scratch.</div>
+          <div class="card-tags"><span class="tag ugrad">Undergrad</span><span class="tag">3 credits</span></div>
+          <div class="card-footer"><span class="card-students">↳ 90 students</span><span class="card-arrow">→</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2023 Spring -->
+    <div class="semester-group" data-year="2023">
+      <div class="semester-heading">
+        <span class="semester-label">Spring 2023</span>
+        <span class="semester-line"></span>
+      </div>
+      <div class="course-grid">
+        <div class="card">
+          <span class="card-code">CS 3110</span>
+          <div class="card-title">Intro to AI</div>
+          <div class="card-desc">Search algorithms, constraint satisfaction, Bayesian reasoning, reinforcement learning, and neural networks from scratch.</div>
+          <div class="card-tags"><span class="tag ugrad">Undergrad</span><span class="tag">3 credits</span></div>
+          <div class="card-footer"><span class="card-students">↳ 82 students</span><span class="card-arrow">→</span></div>
+        </div>
+        <div class="card">
+          <span class="card-code">CS 4910</span>
+          <div class="card-title">ML for Systems</div>
+          <div class="card-desc">Applying machine learning to compiler optimization, database query planning, network routing, and OS scheduling.</div>
+          <div class="card-tags"><span class="tag grad">Graduate</span><span class="tag">3 credits</span></div>
+          <div class="card-footer"><span class="card-students">↳ 22 students</span><span class="card-arrow">→</span></div>
+        </div>
+        <div class="card">
+          <span class="card-code">CS 3310</span>
+          <div class="card-title">Algorithms &amp; Complexity</div>
+          <div class="card-desc">Divide-and-conquer, dynamic programming, network flow, NP-completeness, and approximation algorithms.</div>
+          <div class="card-tags"><span class="tag ugrad">Undergrad</span><span class="tag">3 credits</span></div>
+          <div class="card-footer"><span class="card-students">↳ 125 students</span><span class="card-arrow">→</span></div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <span class="footer-note">© 2025 J. Kim · Last updated April 2025</span>
+    <div class="footer-links">
+      <a href="#">Google Scholar</a>
+      <a href="#">GitHub</a>
+      <a href="#">CV</a>
+      <a href="#">Lab</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ── filter logic ──────────────────────────────────────
+  const buttons = document.querySelectorAll('.filter-btn');
+  const groups  = document.querySelectorAll('.semester-group');
+
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      buttons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const filter = btn.dataset.filter;
+
+      groups.forEach(group => {
+        if (filter === 'all') {
+          group.classList.remove('hidden');
+          return;
+        }
+
+        // year filter
+        if (['2025','2024','2023'].includes(filter)) {
+          group.classList.toggle('hidden', group.dataset.year !== filter);
+          return;
+        }
+
+        // level filter — look at tags inside
+        const cards = group.querySelectorAll('.card');
+        let anyVisible = false;
+        cards.forEach(card => {
+          const tags = card.querySelectorAll('.tag');
+          const hasTag = [...tags].some(t => {
+            if (filter === 'grad')  return t.classList.contains('grad') && !t.classList.contains('ugrad');
+            if (filter === 'ugrad') return t.classList.contains('ugrad');
+            return false;
+          });
+          card.style.display = hasTag ? '' : 'none';
+          if (hasTag) anyVisible = true;
+        });
+        group.classList.toggle('hidden', !anyVisible);
+      });
+    });
+  });
+
+  // restore all cards when switching away from level filter
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const filter = btn.dataset.filter;
+      if (['all','2025','2024','2023'].includes(filter)) {
+        document.querySelectorAll('.card').forEach(c => c.style.display = '');
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
