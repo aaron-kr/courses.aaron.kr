@@ -1,19 +1,22 @@
 # courses.aaron.kr
 
-Temporary standalone website for course information.
+Temporary homepage for university courses (2023–present).
 
-## Quick preview
+## Edit course listings
 
-Open `index.html` directly in a browser, or run:
+Update the course list in `app.js`:
 
-```bash
-cd courses.aaron.kr
-python3 -m http.server 8000
+- `year`, `term`, `code`, `title`
+- `desc`, `level`
+- `site`, `syllabus`, `repo` (links)
+
+## Run locally
+
+Any static server works. For example (PowerShell):
+
+```powershell
+python -m http.server 5173
 ```
 
-Then visit `http://localhost:8000`.
+Then open `http://localhost:5173`.
 
-## Pages
-
-- `index.html`: homepage (current semester + featured courses)
-- `archive.html`: separate course archive page

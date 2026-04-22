@@ -1,290 +1,236 @@
+const TERMS = ["Spring", "Summer", "Fall", "Winter"];
+
+// Edit this list to match your real history. Each item becomes a card.
 const COURSES = [
   {
-    code: "AI-501",
-    universityEn: "University A",
-    universityKo: "A대학교",
-    titleEn: "Machine Learning Studio",
-    titleKo: "머신러닝 스튜디오",
-    semesterEn: "Spring 2026",
-    semesterKo: "2026년 봄",
-    levelEn: "Graduate",
-    levelKo: "대학원",
-    brandColor: "#4d8dff",
-    accentColor: "#6ce4cc",
-    current: true,
-    featured: true,
-    year: 2026
+    year: 2026,
+    term: "Spring",
+    code: "CS 4XX",
+    title: "Machine Learning Systems",
+    level: "Graduate",
+    desc: "Systems for training/serving, evaluation, reproducibility, and responsible deployment.",
+    site: "#",
+    syllabus: "#",
+    repo: "#",
+    notes: "New",
   },
   {
-    code: "DS-220",
-    universityEn: "University B",
-    universityKo: "B대학교",
-    titleEn: "Data Visualization for Decision-Making",
-    titleKo: "의사결정을 위한 데이터 시각화",
-    semesterEn: "Spring 2026",
-    semesterKo: "2026년 봄",
-    levelEn: "Undergraduate",
-    levelKo: "학부",
-    brandColor: "#1fb88e",
-    accentColor: "#6ec8ff",
-    current: true,
-    featured: true,
-    year: 2026
+    year: 2025,
+    term: "Fall",
+    code: "CS 3XX",
+    title: "Deep Learning",
+    level: "Undergrad/Grad",
+    desc: "Representation learning, optimization, architectures, and practical training techniques.",
+    site: "#",
+    syllabus: "#",
+    repo: "#",
+    notes: "Popular",
   },
   {
-    code: "BUS-AI330",
-    universityEn: "University C",
-    universityKo: "C대학교",
-    titleEn: "AI for Business Strategy",
-    titleKo: "비즈니스 전략을 위한 AI",
-    semesterEn: "Spring 2026",
-    semesterKo: "2026년 봄",
-    levelEn: "MBA",
-    levelKo: "MBA",
-    brandColor: "#6a5cff",
-    accentColor: "#c07fff",
-    current: true,
-    featured: false,
-    year: 2026
+    year: 2025,
+    term: "Spring",
+    code: "CS 2XX",
+    title: "Algorithms",
+    level: "Undergraduate",
+    desc: "Design and analysis with rigorous proofs + implementation-oriented problem sets.",
+    site: "#",
+    syllabus: "#",
+    repo: "#",
   },
   {
-    code: "ETH-415",
-    universityEn: "University D",
-    universityKo: "D대학교",
-    titleEn: "Data Ethics and Society",
-    titleKo: "데이터 윤리와 사회",
-    semesterEn: "Fall 2025",
-    semesterKo: "2025년 가을",
-    levelEn: "Interdisciplinary",
-    levelKo: "융합",
-    brandColor: "#ca7d3a",
-    accentColor: "#ffd071",
-    current: false,
-    featured: true,
-    year: 2025
+    year: 2024,
+    term: "Fall",
+    code: "CS 5XX",
+    title: "Security & Privacy for ML",
+    level: "Graduate",
+    desc: "Threat models, privacy leakage, poisoning, robust training, and evaluation.",
+    site: "#",
+    syllabus: "#",
+    repo: "#",
   },
   {
-    code: "STAT-204",
-    universityEn: "University E",
-    universityKo: "E대학교",
-    titleEn: "Applied Statistics with Python",
-    titleKo: "파이썬 기반 응용통계",
-    semesterEn: "Spring 2025",
-    semesterKo: "2025년 봄",
-    levelEn: "Undergraduate",
-    levelKo: "학부",
-    brandColor: "#364dc7",
-    accentColor: "#86b8ff",
-    current: false,
-    featured: false,
-    year: 2025
+    year: 2024,
+    term: "Spring",
+    code: "Seminar",
+    title: "AI Research Reading Group",
+    level: "Graduate",
+    desc: "Weekly paper discussion: foundations → scaling → alignment → evaluation.",
+    site: "#",
+    syllabus: "#",
+    repo: "#",
+    notes: "Seminar",
   },
   {
-    code: "DS-120",
-    universityEn: "University F",
-    universityKo: "F대학교",
-    titleEn: "Programming for Analytics",
-    titleKo: "분석을 위한 프로그래밍",
-    semesterEn: "Fall 2024",
-    semesterKo: "2024년 가을",
-    levelEn: "Undergraduate",
-    levelKo: "학부",
-    brandColor: "#7f539f",
-    accentColor: "#d8a3ff",
-    current: false,
-    featured: false,
-    year: 2024
-  }
+    year: 2023,
+    term: "Fall",
+    code: "CS 1XX",
+    title: "Intro to Programming",
+    level: "Undergraduate",
+    desc: "Python fundamentals, debugging habits, testing, and clean code basics.",
+    site: "#",
+    syllabus: "#",
+    repo: "#",
+  },
 ];
 
-const state = {
-  lang: localStorage.getItem("lang") || "en",
-  theme: localStorage.getItem("theme") || "dark"
-};
+function uniq(arr) {
+  return Array.from(new Set(arr));
+}
 
-const MOBILE_BREAKPOINT = 680;
-const MAX_IMAGE_TITLE_LENGTH = 32;
-const RESIZE_DEBOUNCE_MS = 120;
+function normalize(str) {
+  return (str ?? "").toString().trim().toLowerCase();
+}
 
-const getLabel = (item, lang, key) => item[`${key}${lang === "ko" ? "Ko" : "En"}`];
+function courseMatchesQuery(course, q) {
+  if (!q) return true;
+  const hay = normalize(
+    [
+      course.year,
+      course.term,
+      course.code,
+      course.title,
+      course.level,
+      course.desc,
+      course.notes,
+    ].join(" ")
+  );
+  return hay.includes(normalize(q));
+}
 
-const svgDataUri = (svg) => `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
+function el(tag, className, text) {
+  const node = document.createElement(tag);
+  if (className) node.className = className;
+  if (text != null) node.textContent = text;
+  return node;
+}
 
-const truncateText = (text, maxLength) => {
-  if (text.length <= maxLength) {
-    return text;
+function renderCourseCard(course) {
+  const card = el("article", "card");
+
+  const top = el("div", "card__top");
+  const left = el("div");
+  const badge = el("div", "badge", `${course.term} ${course.year}`);
+  if (course.notes) badge.title = course.notes;
+
+  const code = el("p", "card__code", course.code);
+  const title = el("h3", "card__title");
+  const titleLink = el("a");
+  titleLink.href = course.site || "#";
+  titleLink.textContent = course.title;
+  title.appendChild(titleLink);
+
+  left.appendChild(code);
+  left.appendChild(title);
+  top.appendChild(left);
+  top.appendChild(badge);
+
+  const desc = el("p", "card__desc", course.desc);
+
+  const meta = el("div", "card__meta");
+  const metaLeft = el("div", "meta", course.level);
+  const links = el("div", "links");
+
+  const linkDefs = [
+    ["Site", course.site],
+    ["Syllabus", course.syllabus],
+    ["Repo", course.repo],
+  ].filter(([, href]) => href);
+
+  for (const [label, href] of linkDefs) {
+    const a = el("a");
+    a.href = href;
+    a.textContent = label;
+    a.rel = "noopener";
+    links.appendChild(a);
   }
-  const trimmed = text.slice(0, maxLength);
-  const lastSpace = trimmed.lastIndexOf(" ");
-  return `${(lastSpace > 0 ? trimmed.slice(0, lastSpace) : trimmed).trim()}…`;
-};
 
-const getLogoImage = (item, lang) => {
-  const uni = getLabel(item, lang, "university");
-  const initial = uni.trim().charAt(0).toUpperCase() || "U";
-  return svgDataUri(`<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120">
-    <defs>
-      <radialGradient id="g" cx="28%" cy="26%">
-        <stop offset="0%" stop-color="#ffffff" />
-        <stop offset="100%" stop-color="${item.brandColor}" />
-      </radialGradient>
-    </defs>
-    <rect width="120" height="120" rx="60" fill="url(#g)"/>
-    <text x="60" y="73" text-anchor="middle" font-family="DM Sans, Arial, sans-serif" font-weight="700" font-size="48" fill="#ffffff">${initial}</text>
-  </svg>`);
-};
+  meta.appendChild(metaLeft);
+  meta.appendChild(links);
 
-const getFeaturedImage = (item, lang) => {
-  const title = truncateText(getLabel(item, lang, "title"), MAX_IMAGE_TITLE_LENGTH);
-  return svgDataUri(`<svg xmlns="http://www.w3.org/2000/svg" width="640" height="360" viewBox="0 0 640 360">
-    <defs>
-      <linearGradient id="fg" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stop-color="${item.accentColor}" />
-        <stop offset="100%" stop-color="${item.brandColor}" />
-      </linearGradient>
-    </defs>
-    <rect width="640" height="360" rx="28" fill="url(#fg)" />
-    <rect x="26" y="30" width="588" height="300" rx="20" fill="rgba(0,0,0,0.12)" />
-    <text x="50%" y="46%" text-anchor="middle" font-family="DM Sans, Arial, sans-serif" font-size="42" font-weight="700" fill="#ffffff">${item.code}</text>
-    <text x="50%" y="58%" text-anchor="middle" font-family="DM Sans, Arial, sans-serif" font-size="21" fill="rgba(255,255,255,0.94)">${title}</text>
-  </svg>`);
-};
+  card.appendChild(top);
+  card.appendChild(desc);
+  card.appendChild(meta);
 
-const createCourseCard = (item, lang) => {
-  const card = document.createElement("article");
-  card.className = "course-card";
-  card.innerHTML = `
-    <div class="course-media">
-      <img class="course-logo" src="${getLogoImage(item, lang)}" alt="${getLabel(item, lang, "university")} logo" loading="lazy" />
-      <img class="course-thumb" src="${getFeaturedImage(item, lang)}" alt="${getLabel(item, lang, "title")} featured image" loading="lazy" />
-    </div>
-    <h3>${getLabel(item, lang, "title")}</h3>
-    <p>${getLabel(item, lang, "university")} · ${item.code}</p>
-    <p>${getLabel(item, lang, "semester")} · ${getLabel(item, lang, "level")}</p>
-    <span class="pill">${item.featured ? (lang === "ko" ? "추천" : "Featured") : (lang === "ko" ? "강의" : "Course")}</span>
-  `;
   return card;
-};
+}
 
-const createArchiveRow = (item, lang) => {
-  const row = document.createElement("article");
-  row.className = "archive-row";
-  row.innerHTML = `
-    <img class="archive-logo" src="${getLogoImage(item, lang)}" alt="${getLabel(item, lang, "university")} logo" loading="lazy" />
-    <img class="archive-thumb" src="${getFeaturedImage(item, lang)}" alt="${getLabel(item, lang, "title")} featured image" loading="lazy" />
-    <div class="archive-main">
-      <h3>${getLabel(item, lang, "title")}</h3>
-      <p>${getLabel(item, lang, "university")} · ${item.code}</p>
-      <p>${getLabel(item, lang, "semester")} · ${getLabel(item, lang, "level")}</p>
-    </div>
-    <span class="pill">${lang === "ko" ? "아카이브" : "Archived"}</span>
-  `;
-  return row;
-};
+function populateFilters({ yearSelect, termSelect, courses }) {
+  const years = uniq(courses.map((c) => c.year)).sort((a, b) => b - a);
 
-const applyLanguage = () => {
-  document.documentElement.lang = state.lang;
-  document.body.classList.toggle("lang-ko", state.lang === "ko");
-  document.title = document.body.dataset[`title${state.lang === "ko" ? "Ko" : "En"}`] || document.title;
+  yearSelect.replaceChildren();
+  termSelect.replaceChildren();
 
-  document.querySelectorAll("[data-en][data-ko]").forEach((node) => {
-    node.textContent = node.dataset[state.lang];
-  });
+  yearSelect.appendChild(new Option("All", "all"));
+  for (const y of years) yearSelect.appendChild(new Option(String(y), String(y)));
 
-  const langToggle = document.getElementById("lang-toggle");
-  if (langToggle) {
-    langToggle.textContent = state.lang === "ko" ? "EN" : "한국어";
-  }
-};
+  termSelect.appendChild(new Option("All", "all"));
+  for (const t of TERMS) termSelect.appendChild(new Option(t, t));
+}
 
-const applyTheme = () => {
-  document.documentElement.setAttribute("data-theme", state.theme);
-  const themeToggle = document.getElementById("theme-toggle");
-  if (themeToggle) {
-    themeToggle.textContent = state.theme === "dark" ? "☀️" : "🌙";
-  }
-};
-
-const renderHome = () => {
-  const currentContainer = document.getElementById("current-courses");
-  const featuredContainer = document.getElementById("featured-courses");
-  if (!currentContainer || !featuredContainer) {
-    return;
-  }
-
-  currentContainer.innerHTML = "";
-  featuredContainer.innerHTML = "";
-
-  COURSES.filter((course) => course.current).forEach((course) => {
-    currentContainer.appendChild(createCourseCard(course, state.lang));
-  });
-
-  COURSES.filter((course) => course.featured).forEach((course) => {
-    featuredContainer.appendChild(createCourseCard(course, state.lang));
-  });
-};
-
-const renderArchive = () => {
-  const container = document.getElementById("archive-courses");
-  if (!container) {
-    return;
-  }
-
-  container.innerHTML = "";
-
-  const grouped = COURSES.filter((course) => !course.current).sort((a, b) => b.year - a.year);
-  grouped.forEach((course) => {
-    container.appendChild(createArchiveRow(course, state.lang));
-  });
-};
-
-const init = () => {
-  const langToggle = document.getElementById("lang-toggle");
-  const themeToggle = document.getElementById("theme-toggle");
-  const navToggle = document.getElementById("nav-toggle");
-  const navMenu = document.getElementById("primary-nav");
-  let resizeTimer;
-
-  langToggle?.addEventListener("click", () => {
-    state.lang = state.lang === "en" ? "ko" : "en";
-    localStorage.setItem("lang", state.lang);
-    applyLanguage();
-    renderHome();
-    renderArchive();
-  });
-
-  themeToggle?.addEventListener("click", () => {
-    state.theme = state.theme === "dark" ? "light" : "dark";
-    localStorage.setItem("theme", state.theme);
-    applyTheme();
-  });
-
-  navToggle?.addEventListener("click", () => {
-    const open = navMenu?.classList.toggle("is-open");
-    navToggle.setAttribute("aria-expanded", String(Boolean(open)));
-  });
-
-  navMenu?.querySelectorAll("a").forEach((link) => {
-    link.addEventListener("click", () => {
-      navMenu.classList.remove("is-open");
-      navToggle?.setAttribute("aria-expanded", "false");
+function applyFilters({ courses, q, year, term }) {
+  return courses
+    .filter((c) => (year === "all" ? true : String(c.year) === String(year)))
+    .filter((c) => (term === "all" ? true : c.term === term))
+    .filter((c) => courseMatchesQuery(c, q))
+    .sort((a, b) => {
+      if (a.year !== b.year) return b.year - a.year;
+      return TERMS.indexOf(b.term) - TERMS.indexOf(a.term);
     });
+}
+
+function main() {
+  const grid = document.getElementById("courseGrid");
+  const q = document.getElementById("q");
+  const year = document.getElementById("year");
+  const term = document.getElementById("term");
+  const reset = document.getElementById("reset");
+
+  const shownCount = document.getElementById("shownCount");
+  const totalCount = document.getElementById("totalCount");
+  const emptyState = document.getElementById("emptyState");
+  const yearNow = document.getElementById("yearNow");
+
+  yearNow.textContent = String(new Date().getFullYear());
+  totalCount.textContent = String(COURSES.length);
+
+  populateFilters({ yearSelect: year, termSelect: term, courses: COURSES });
+
+  function rerender() {
+    const filtered = applyFilters({
+      courses: COURSES,
+      q: q.value,
+      year: year.value,
+      term: term.value,
+    });
+
+    grid.replaceChildren(...filtered.map(renderCourseCard));
+    shownCount.textContent = String(filtered.length);
+    emptyState.hidden = filtered.length > 0;
+  }
+
+  const rerenderDebounced = debounce(rerender, 90);
+
+  q.addEventListener("input", rerenderDebounced);
+  year.addEventListener("change", rerender);
+  term.addEventListener("change", rerender);
+  reset.addEventListener("click", () => {
+    q.value = "";
+    year.value = "all";
+    term.value = "all";
+    rerender();
+    q.focus();
   });
 
-  window.addEventListener("resize", () => {
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(() => {
-      if (window.innerWidth > MOBILE_BREAKPOINT) {
-        navMenu?.classList.remove("is-open");
-        navToggle?.setAttribute("aria-expanded", "false");
-      }
-    }, RESIZE_DEBOUNCE_MS);
-  });
+  rerender();
+}
 
-  applyTheme();
-  applyLanguage();
-  renderHome();
-  renderArchive();
-};
+function debounce(fn, delayMs) {
+  let t = null;
+  return (...args) => {
+    if (t) window.clearTimeout(t);
+    t = window.setTimeout(() => fn(...args), delayMs);
+  };
+}
 
-init();
+document.addEventListener("DOMContentLoaded", main);
+
